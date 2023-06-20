@@ -174,7 +174,7 @@ class _MyAppState extends State<MyApp> {
   List<Widget> getScreens() {
     return <Widget>[
       BlocProvider(
-        create: ((context) => AuthBloc()),
+        create: ((context) => AuthBloc(locator.get())),
         child: LoginScreen(),
       ),
       BlocProvider(
@@ -186,13 +186,14 @@ class _MyAppState extends State<MyApp> {
         child: CardScreen(),
       ),
       BlocProvider(
-        create: ((context) => CategoryBloc()),
+        create: ((context) => CategoryBloc(locator.get())),
         child: CategoryScreen(),
       ),
       Directionality(
         textDirection: TextDirection.rtl,
         child: BlocProvider(
-          create: ((context) => BannerBloc()),
+          create: ((context) =>
+              BannerBloc(locator.get(), locator.get(), locator.get())),
           child: HomeScreen(),
         ),
       ),

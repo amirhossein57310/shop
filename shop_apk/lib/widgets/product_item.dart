@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_apk/bloc/basket/basket_bloc.dart';
-import 'package:shop_apk/bloc/product/product_bloc.dart';
+
 import 'package:shop_apk/constants/colors.dart';
 import 'package:shop_apk/data/model/product.dart';
 import 'package:shop_apk/screens/product_detail_screen.dart';
@@ -10,8 +10,8 @@ import 'package:shop_apk/widgets/cached_image.dart';
 import '../di/di.dart';
 
 class ProductItem extends StatelessWidget {
-  Product product;
-  ProductItem(
+  final Product product;
+  const ProductItem(
     this.product, {
     Key? key,
   }) : super(key: key);

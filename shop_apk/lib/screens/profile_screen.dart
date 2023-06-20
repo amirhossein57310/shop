@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shop_apk/constants/colors.dart';
-import 'package:shop_apk/widgets/horizontal_item.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);

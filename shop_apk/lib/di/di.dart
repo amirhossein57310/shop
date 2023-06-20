@@ -16,77 +16,70 @@ import 'package:shop_apk/data/repository/categoty_repository.dart';
 import 'package:shop_apk/data/repository/product_categoty_repository.dart';
 import 'package:shop_apk/data/repository/product_detail_repository.dart';
 import 'package:shop_apk/data/repository/product_repository.dart';
+import 'dart:async';
 
-// var locator = GetIt.instance;
-// Future<void> getItInit() async {
-//   //components
-
-//   locator.registerSingleton<Dio>(
-//       Dio(BaseOptions(baseUrl: 'http://startflutter.ir/api/')));
-
-//   locator.registerSingleton<SharedPreferences>(
-//       await SharedPreferences.getInstance());
-
-//   // datasource
-
-//   locator.registerFactory<IauthenticationDataSource>(() {
-//     return Authentication();
-//   });
-
-//   //repositories
-
-//   locator.registerFactory<IAuthenticationRepositories>(
-//       () => AuthenticationRepositories());
-// }
+import 'package:shop_apk/util/payment_handler.dart';
+import 'package:shop_apk/util/url_payment.dart';
+import 'package:zarinpal/zarinpal.dart';
 
 var locator = GetIt.instance;
 
-Future<void> getItInit() async {
-  locator.registerSingleton<Dio>(
-      Dio(BaseOptions(baseUrl: 'http://startflutter.ir/api/')));
+FutureOr<void> getItInit() async {
+  await _initComponents();
+  _initDatasources();
+  _initRepositories();
+  locator
+      .registerSingleton<BasketBloc>(BasketBloc(locator.get(), locator.get()));
+}
+
+void _initRepositories() {
+  locator.registerFactory<IcategoryRepository>(
+      () => CategoryRepository(locator.get()));
+  locator.registerFactory<IBannerRepositories>(
+      () => BannerRepositories(locator.get()));
+  locator.registerFactory<IProductRepository>(
+      () => ProductRepositories(locator.get()));
+  locator.registerFactory<IproductDetailRepository>(
+      () => ProductDetailRepository(locator.get()));
+  locator.registerFactory<IproductCategoryRepository>(
+      () => ProductCategoryRepository(locator.get()));
+  locator.registerFactory<IproductBasketRepository>(
+      () => ProductBasketRepository(locator.get()));
+  locator.registerFactory<IBannerRemoteDatasource>(
+      () => BannerRemoteDatasource(locator.get()));
+  locator.registerSingleton<IAuthenticationRepositories>(
+      AuthenticationRepositories(locator.get()));
+}
+
+void _initDatasources() {
+  locator.registerFactory<ICategoryRemoteDatasource>(() {
+    return CategoryRemoteDatasource(locator.get());
+  });
+
+  locator.registerFactory<IProductDatasource>(
+      () => ProductRemoteDtasource(locator.get()));
+  locator.registerFactory<IproductDetailDatasource>(
+      () => ProductRemoteDetailDatasource(locator.get()));
+  locator.registerFactory<IproductCategoryRemote>(
+      () => ProductCategoryRemote(locator.get()));
+  locator.registerFactory<IproductBasketDateSource>(
+      () => ProductBasketLocalDatasource());
+  locator.registerFactory<IauthenticationDataSource>(() {
+    return Authentication(locator.get());
+  });
+}
+
+Future<void> _initComponents() async {
+  locator.registerSingleton<PaymentRequest>(PaymentRequest());
+
+  locator.registerSingleton<UrlHandler>(UrlPayment());
+
+  locator.registerSingleton<PaymentHandler>(
+      ZarinpalPaymentHandler(locator.get(), locator.get()));
 
   locator.registerSingleton<SharedPreferences>(
       await SharedPreferences.getInstance());
 
-  locator.registerFactory<IauthenticationDataSource>(() {
-    return Authentication();
-  });
-
-  // locator.registerFactory<IcategotyDatasource>(() {
-  //   return CategoryRemoteDatasource();
-  // });
-
-  locator.registerFactory<ICategoryRemoteDatasource>(() {
-    return CategoryRemoteDatasource();
-  });
-  locator
-      .registerFactory<IBannerRemoteDatasource>(() => BannerRemoteDatasource());
-  locator.registerFactory<IAuthenticationRepositories>(() {
-    return AuthenticationRepositories();
-  });
-  locator.registerFactory<IProductDatasource>(() => ProductRemoteDtasource());
-  locator.registerFactory<IproductDetailDatasource>(
-      () => ProductRemoteDetailDatasource());
-  locator
-      .registerFactory<IproductCategoryRemote>(() => ProductCategoryRemote());
-  locator.registerFactory<IproductBasketDateSource>(
-      () => productBasketLocalDatasource());
-
-  // locator.registerFactory<IcategoryRepository>(() {
-  //   return CategoryRepository();
-  // });
-
-  locator.registerFactory<IcategoryRepository>(() => CategoryRepository());
-  locator.registerFactory<IBannerRepositories>(() => BannerRepositories());
-  locator.registerFactory<IProductRepository>(() => ProductRepositories());
-  locator.registerFactory<IproductDetailRepository>(
-      () => ProductDetailRepository());
-  locator.registerFactory<IproductCategoryRepository>(
-      () => ProductCategoryRepository());
-  locator.registerFactory<IproductBasketRepository>(
-      () => ProductBasketRepository());
-
-  //bloc
-
-  locator.registerSingleton<BasketBloc>(BasketBloc());
+  locator.registerSingleton<Dio>(
+      Dio(BaseOptions(baseUrl: 'http://startflutter.ir/api/')));
 }

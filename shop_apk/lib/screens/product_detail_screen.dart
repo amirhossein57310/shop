@@ -2,26 +2,27 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/adapters.dart';
+
 import 'package:shop_apk/bloc/basket/basket_bloc.dart';
 import 'package:shop_apk/bloc/basket/basket_event.dart';
 import 'package:shop_apk/bloc/product/product_bloc.dart';
 import 'package:shop_apk/bloc/product/product_event.dart';
 import 'package:shop_apk/bloc/product/product_state.dart';
 import 'package:shop_apk/constants/colors.dart';
-import 'package:shop_apk/data/model/basket_item.dart';
+
 import 'package:shop_apk/data/model/product.dart';
 import 'package:shop_apk/data/model/product_image.dart';
 import 'package:shop_apk/data/model/product_variant.dart';
 import 'package:shop_apk/data/model/properties.dart';
 import 'package:shop_apk/data/model/variant.dart';
 import 'package:shop_apk/data/model/variant_type.dart';
+import 'package:shop_apk/di/di.dart';
 
 import 'package:shop_apk/widgets/cached_image.dart';
 
 class ProductDetailScreen extends StatefulWidget {
-  Product product;
-  ProductDetailScreen(this.product, {Key? key}) : super(key: key);
+  final Product product;
+  const ProductDetailScreen(this.product, {Key? key}) : super(key: key);
 
   @override
   State<ProductDetailScreen> createState() => _ProductDetailScreenState();
@@ -32,7 +33,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        var bloc = ProductBloc();
+        var bloc = ProductBloc(locator.get(), locator.get());
         bloc.add(
             ProductResponseEvent(widget.product.id, widget.product.category));
         return bloc;
@@ -318,8 +319,8 @@ class DetailContent extends StatelessWidget {
 }
 
 class TechnicalProperties extends StatefulWidget {
-  List<Properties> propertiesList;
-  TechnicalProperties(
+  final List<Properties> propertiesList;
+  const TechnicalProperties(
     this.propertiesList, {
     Key? key,
   }) : super(key: key);
@@ -427,8 +428,8 @@ class _TechnicalPropertiesState extends State<TechnicalProperties> {
 }
 
 class ProductDescription extends StatefulWidget {
-  String description;
-  ProductDescription(
+  final String description;
+  const ProductDescription(
     this.description, {
     Key? key,
   }) : super(key: key);
@@ -521,9 +522,9 @@ class _ProductDescriptionState extends State<ProductDescription> {
 }
 
 class VariantContainerGenerator extends StatelessWidget {
-  List<ProductVariant> productVariantList;
+  final List<ProductVariant> productVariantList;
 
-  VariantContainerGenerator(
+  const VariantContainerGenerator(
     this.productVariantList, {
     Key? key,
   }) : super(key: key);
@@ -545,8 +546,9 @@ class VariantContainerGenerator extends StatelessWidget {
 }
 
 class VariantContainerChild extends StatelessWidget {
-  ProductVariant productVariant;
-  VariantContainerChild(this.productVariant, {Key? key}) : super(key: key);
+  final ProductVariant productVariant;
+  const VariantContainerChild(this.productVariant, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -584,8 +586,8 @@ class VariantContainerChild extends StatelessWidget {
 }
 
 class ProductGallery extends StatefulWidget {
-  String defaultProductThumbnail;
-  List<ProductImage> productImageList;
+  final String defaultProductThumbnail;
+  final List<ProductImage> productImageList;
   int selectedItem = 0;
   ProductGallery(
     this.defaultProductThumbnail,
@@ -712,8 +714,8 @@ class _ProductGalleryState extends State<ProductGallery> {
 }
 
 class BuyingBasket extends StatelessWidget {
-  Product product;
-  BuyingBasket(this.product, {Key? key}) : super(key: key);
+  final Product product;
+  const BuyingBasket(this.product, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -864,8 +866,8 @@ class DiscountBasket extends StatelessWidget {
 }
 
 class ColorVariantList extends StatefulWidget {
-  List<Variant> variantList;
-  ColorVariantList(this.variantList, {Key? key}) : super(key: key);
+  final List<Variant> variantList;
+  const ColorVariantList(this.variantList, {Key? key}) : super(key: key);
 
   @override
   State<ColorVariantList> createState() => _ColorVariantListState();
@@ -901,7 +903,7 @@ class _ColorVariantListState extends State<ColorVariantList> {
                       ? Border.all(
                           width: 2,
                           color: CustomColor.blue,
-                          strokeAlign: StrokeAlign.outside)
+                          strokeAlign: BorderSide.strokeAlignOutside)
                       : Border.all(
                           width: 1,
                           color: Colors.white,
@@ -925,8 +927,8 @@ class _ColorVariantListState extends State<ColorVariantList> {
 }
 
 class StorageVariantList extends StatefulWidget {
-  List<Variant> storageList;
-  StorageVariantList(this.storageList, {Key? key}) : super(key: key);
+  final List<Variant> storageList;
+  const StorageVariantList(this.storageList, {Key? key}) : super(key: key);
 
   @override
   State<StorageVariantList> createState() => _StorageVariantListState();

@@ -6,8 +6,8 @@ import 'package:shop_apk/widgets/cached_image.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class BannerSlider extends StatelessWidget {
-  List<Banners> list;
-  BannerSlider(this.list, {Key? key}) : super(key: key);
+  final List<Banners> list;
+  const BannerSlider(this.list, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

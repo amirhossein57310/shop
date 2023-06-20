@@ -5,12 +5,12 @@ import 'package:shop_apk/bloc/productCategory/product_category_event.dart';
 import 'package:shop_apk/bloc/productCategory/product_category_state.dart';
 import 'package:shop_apk/constants/colors.dart';
 import 'package:shop_apk/data/model/categoty.dart';
-import 'package:shop_apk/data/model/product.dart';
+
 import 'package:shop_apk/widgets/product_item.dart';
 
 class ProductListScreen extends StatefulWidget {
-  Category category;
-  ProductListScreen(this.category, {Key? key}) : super(key: key);
+  final Category category;
+  const ProductListScreen(this.category, {Key? key}) : super(key: key);
 
   @override
   State<ProductListScreen> createState() => _ProductListScreenState();

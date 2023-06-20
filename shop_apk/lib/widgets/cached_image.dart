@@ -24,10 +24,11 @@ import 'package:flutter/material.dart';
 // }
 
 class CachedImage extends StatelessWidget {
-  String? imageUrl;
-  double radius;
+  final String? imageUrl;
+  final double radius;
 
-  CachedImage({Key? key, this.imageUrl, this.radius = 0}) : super(key: key);
+  const CachedImage({Key? key, this.imageUrl, this.radius = 0})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

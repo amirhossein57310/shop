@@ -1,19 +1,20 @@
 import 'package:dio/dio.dart';
-import 'package:shop_apk/data/model/categoty.dart';
+
 import 'package:shop_apk/data/model/product.dart';
-import 'package:shop_apk/data/model/product_category.dart';
-import 'package:shop_apk/di/di.dart';
+
 import 'package:shop_apk/util/api_exception.dart';
+import 'dart:async';
 
 abstract class IproductCategoryRemote {
-  Future<List<Product>> getProductCategory(String category);
+  FutureOr<List<Product>> getProductCategory(String category);
 }
 
 class ProductCategoryRemote extends IproductCategoryRemote {
-  final Dio _dio = locator.get();
+  final Dio _dio;
+  ProductCategoryRemote(this._dio);
 
   @override
-  Future<List<Product>> getProductCategory(String category) async {
+  FutureOr<List<Product>> getProductCategory(String category) async {
     try {
       Map<String, String> qParams = {'filter': 'category= "$category"'};
       Response<dynamic> responses;
@@ -26,7 +27,7 @@ class ProductCategoryRemote extends IproductCategoryRemote {
       return responses.data['items']
           .map<Product>((jsonObject) => Product.fromJson(jsonObject))
           .toList();
-    } on DioError catch (ex) {
+    } on DioException catch (ex) {
       throw ApiException(ex.response!.statusCode, ex.response!.data['message']);
     } catch (ex) {
       throw ApiException(10, 'product error');

@@ -1,12 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:shop_apk/data/model/categoty.dart';
-import 'package:shop_apk/data/model/product.dart';
-import 'package:shop_apk/data/model/product_category.dart';
+
 import 'package:shop_apk/data/model/product_image.dart';
 import 'package:shop_apk/data/model/product_variant.dart';
 import 'package:shop_apk/data/model/properties.dart';
-import 'package:shop_apk/data/model/variant.dart';
-import 'package:shop_apk/data/model/variant_type.dart';
 
 abstract class ProductState {}
 

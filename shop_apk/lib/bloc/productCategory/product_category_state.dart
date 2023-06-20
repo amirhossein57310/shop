@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:shop_apk/data/model/product.dart';
-import 'package:shop_apk/data/model/product_category.dart';
 
 abstract class ProductCategoryState {}
 

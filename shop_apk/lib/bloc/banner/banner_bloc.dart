@@ -4,13 +4,14 @@ import 'package:shop_apk/bloc/banner/banner_state.dart';
 import 'package:shop_apk/data/repository/banner_repositories.dart';
 import 'package:shop_apk/data/repository/categoty_repository.dart';
 import 'package:shop_apk/data/repository/product_repository.dart';
-import 'package:shop_apk/di/di.dart';
 
 class BannerBloc extends Bloc<BannerEvent, BannerState> {
-  final IBannerRepositories _repository = locator.get();
-  final IcategoryRepository _categortRepository = locator.get();
-  final IProductRepository _productRepository = locator.get();
-  BannerBloc() : super(BannerInitState()) {
+  final IBannerRepositories _repository;
+  final IcategoryRepository _categortRepository;
+  final IProductRepository _productRepository;
+  BannerBloc(
+      this._repository, this._categortRepository, this._productRepository)
+      : super(BannerInitState()) {
     on<BannerRequestEvent>((event, emit) async {
       emit(BannerLoadingState());
       var response = await _repository.getBanners();

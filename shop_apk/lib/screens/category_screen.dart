@@ -5,7 +5,7 @@ import 'package:shop_apk/bloc/category/category_event.dart';
 import 'package:shop_apk/bloc/category/category_state.dart';
 import 'package:shop_apk/constants/colors.dart';
 import 'package:shop_apk/data/model/categoty.dart';
-import 'package:shop_apk/data/repository/categoty_repository.dart';
+
 import 'package:shop_apk/widgets/cached_image.dart';
 
 class CategoryScreen extends StatefulWidget {
@@ -96,8 +96,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
 }
 
 class _ListCategory extends StatelessWidget {
-  List<Category>? list;
-  _ListCategory({Key? key, this.list}) : super(key: key);
+  final List<Category>? list;
+  const _ListCategory({Key? key, this.list}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

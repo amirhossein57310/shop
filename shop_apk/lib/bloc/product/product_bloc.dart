@@ -1,17 +1,16 @@
 import 'package:bloc/bloc.dart';
 import 'package:shop_apk/bloc/product/product_event.dart';
 import 'package:shop_apk/bloc/product/product_state.dart';
-import 'package:shop_apk/data/datasource/basketItem_datasource.dart';
+
 import 'package:shop_apk/data/model/basket_item.dart';
 import 'package:shop_apk/data/repository/basketItem_repository.dart';
 import 'package:shop_apk/data/repository/product_detail_repository.dart';
-import 'package:shop_apk/data/repository/product_repository.dart';
-import 'package:shop_apk/di/di.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
-  final IproductDetailRepository _repository = locator.get();
-  final IproductBasketRepository _basketRepository = locator.get();
-  ProductBloc() : super(InitProductState()) {
+  final IproductDetailRepository _repository;
+  final IproductBasketRepository _basketRepository;
+  ProductBloc(this._repository, this._basketRepository)
+      : super(InitProductState()) {
     on<ProductResponseEvent>((event, emit) async {
       emit(LoadingProductState());
       var response = await _repository.getGallery(event.productId);

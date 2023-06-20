@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_apk/bloc/productCategory/product_category_bloc.dart';
 import 'package:shop_apk/data/model/categoty.dart';
+import 'package:shop_apk/di/di.dart';
 
 import 'package:shop_apk/screens/product_list_screen.dart';
 import 'package:shop_apk/widgets/cached_image.dart';
 
 class HorizontalItem extends StatelessWidget {
-  Category category;
+  final Category category;
 
-  HorizontalItem(
+  const HorizontalItem(
     this.category, {
     Key? key,
   }) : super(key: key);
@@ -23,7 +24,7 @@ class HorizontalItem extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: ((context) => BlocProvider(
-                create: (context) => ProductCategoryBloc(),
+                create: (context) => ProductCategoryBloc(locator.get()),
                 child: ProductListScreen(category))),
           ),
         );

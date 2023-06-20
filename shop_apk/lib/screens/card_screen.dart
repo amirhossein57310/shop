@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/adapters.dart';
+
 import 'package:shop_apk/bloc/basket/basket_bloc.dart';
+import 'package:shop_apk/bloc/basket/basket_event.dart';
 import 'package:shop_apk/bloc/basket/basket_state.dart';
 import 'package:shop_apk/constants/colors.dart';
 import 'package:shop_apk/util/extentions/string_extentions.dart';
@@ -102,7 +103,14 @@ class CardScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          context
+                              .read<BasketBloc>()
+                              .add(BasketPaymentInitEvent());
+                          context
+                              .read<BasketBloc>()
+                              .add(BasketPaymentRequestEvent());
+                        },
                         child: Text(
                           state.getTotalPrice == 0
                               ? 'your basket is empty'
@@ -126,8 +134,8 @@ class CardScreen extends StatelessWidget {
 }
 
 class CardItem extends StatelessWidget {
-  BasketItem basketItem;
-  CardItem(
+  final BasketItem basketItem;
+  const CardItem(
     this.basketItem, {
     Key? key,
   }) : super(key: key);
@@ -330,9 +338,9 @@ class CardItem extends StatelessWidget {
 }
 
 class OptionCheap extends StatelessWidget {
-  String title;
-  String? color;
-  OptionCheap(
+  final String title;
+  final String? color;
+  const OptionCheap(
     this.title, {
     this.color,
     Key? key,
