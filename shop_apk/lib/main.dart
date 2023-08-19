@@ -20,6 +20,8 @@ import 'package:shop_apk/screens/category_screen.dart';
 import 'package:shop_apk/screens/home_screen.dart';
 import 'package:shop_apk/screens/login_screen.dart';
 
+import 'bloc/banner/banner_event.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -192,8 +194,15 @@ class _MyAppState extends State<MyApp> {
       Directionality(
         textDirection: TextDirection.rtl,
         child: BlocProvider(
-          create: ((context) =>
-              BannerBloc(locator.get(), locator.get(), locator.get())),
+          create: ((context) {
+            var bloc = BannerBloc(
+              locator.get(),
+              locator.get(),
+              locator.get(),
+            );
+            bloc.add(BannerRequestEvent());
+            return bloc;
+          }),
           child: HomeScreen(),
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:shop_apk/bloc/banner/banner_bloc.dart';
 import 'package:shop_apk/bloc/banner/banner_event.dart';
 import 'package:shop_apk/bloc/banner/banner_state.dart';
@@ -11,20 +12,10 @@ import 'package:shop_apk/widgets/horizontal_item.dart';
 import 'package:shop_apk/widgets/product_item.dart';
 
 import '../data/model/categoty.dart';
+import '../widgets/loading_animation.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    BlocProvider.of<BannerBloc>(context).add(BannerRequestEvent());
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,70 +24,67 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: BlocBuilder<BannerBloc, BannerState>(
           builder: ((context, state) {
-            return CustomScrollView(
-              slivers: [
-                _GetSearchBox(),
-                if (state is BannerLoadingState) ...{
-                  SliverToBoxAdapter(
-                    child: Column(
-                      children: const [
-                        SizedBox(
-                          height: 24,
-                          width: 24,
-                          child: CircularProgressIndicator(),
-                        ),
-                      ],
-                    ),
-                  ),
-                } else ...{
-                  if (state is BannerResponseState) ...[
-                    state.response.fold((l) {
-                      return SliverToBoxAdapter(
-                        child: Text(l),
-                      );
-                    }, (r) {
-                      return _GetBanners(r);
-                    })
-                  ],
-                  _GetCategoryListTitle(),
-                  if (state is BannerResponseState) ...[
-                    state.categoryList.fold((l) {
-                      return SliverToBoxAdapter(
-                        child: Text(l),
-                      );
-                    }, (categoryList) {
-                      return _GetCategoryList(categoryList);
-                    })
-                  ],
-                  _getBestSellerTitle(),
-                  if (state is BannerResponseState) ...[
-                    state.bestSellerProductList.fold((l) {
-                      return SliverToBoxAdapter(
-                        child: Text(l),
-                      );
-                    }, (r) {
-                      return _GetBestSellerProducts(r);
-                    })
-                  ],
-                  _GetMostViewdTitle(),
-                  if (state is BannerResponseState) ...[
-                    state.hotestProductList.fold(
-                      (l) {
-                        return SliverToBoxAdapter(
-                          child: Text(l),
-                        );
-                      },
-                      (r) {
-                        return _GetMostViewdProduct(r);
-                      },
-                    ),
-                  ],
-                },
-              ],
-            );
+            return _getHomeScreenContent(state, context);
           }),
         ),
       ),
+    );
+  }
+}
+
+Widget _getHomeScreenContent(BannerState state, BuildContext context) {
+  if (state is BannerLoadingState) {
+    return Center(
+      child: LoadingAnimation(),
+    );
+  } else if (state is BannerResponseState) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<BannerBloc>().add(BannerRequestEvent());
+      },
+      child: CustomScrollView(
+        slivers: [
+          _GetSearchBox(),
+          state.response.fold((l) {
+            return SliverToBoxAdapter(
+              child: Text(l),
+            );
+          }, (r) {
+            return _GetBanners(r);
+          }),
+          _GetCategoryListTitle(),
+          state.categoryList.fold((l) {
+            return SliverToBoxAdapter(
+              child: Text(l),
+            );
+          }, (categoryList) {
+            return _GetCategoryList(categoryList);
+          }),
+          _getBestSellerTitle(),
+          state.bestSellerProductList.fold((l) {
+            return SliverToBoxAdapter(
+              child: Text(l),
+            );
+          }, (r) {
+            return _GetBestSellerProducts(r);
+          }),
+          _GetMostViewdTitle(),
+          state.hotestProductList.fold(
+            (l) {
+              return SliverToBoxAdapter(
+                child: Text(l),
+              );
+            },
+            (r) {
+              return _GetMostViewdProduct(r);
+            },
+          ),
+        ],
+      ),
+    );
+  } else {
+    return Center(
+      child: Text('خطایی در دریافت اطلاعات به وجود آمده است!'),
     );
   }
 }

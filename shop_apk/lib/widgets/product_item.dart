@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_apk/bloc/basket/basket_bloc.dart';
-
 import 'package:shop_apk/constants/colors.dart';
 import 'package:shop_apk/data/model/product.dart';
 import 'package:shop_apk/screens/product_detail_screen.dart';
+import 'package:shop_apk/util/extentions/int_extensions.dart';
 import 'package:shop_apk/widgets/cached_image.dart';
-
 import '../di/di.dart';
 
 class ProductItem extends StatelessWidget {
@@ -87,99 +86,94 @@ class ProductItem extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            Directionality(
-              textDirection: TextDirection.rtl,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: 10,
-                      right: 10,
-                    ),
-                    child: Text(
-                      product.name,
-                      maxLines: 1,
-                      style: TextStyle(
-                        fontFamily: 'SB',
-                        fontSize: 16,
-                      ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: 10,
+                    right: 10,
+                  ),
+                  child: Text(
+                    product.name,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontFamily: 'SB',
+                      fontSize: 16,
                     ),
                   ),
-                  Container(
-                    height: 53,
-                    decoration: const BoxDecoration(
-                      color: CustomColor.blue,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(15),
-                        bottomRight: Radius.circular(15),
+                ),
+                Container(
+                  height: 53,
+                  decoration: const BoxDecoration(
+                    color: CustomColor.blue,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: CustomColor.blue,
+                        blurRadius: 25,
+                        spreadRadius: -12,
+                        offset: Offset(0, 15),
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: CustomColor.blue,
-                          blurRadius: 25,
-                          spreadRadius: -12,
-                          offset: Offset(0, 15),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      children: [
+                        const Text(
+                          'تومان',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'SB',
+                            fontSize: 14,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              product.price.convertToPrice(),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'SB',
+                                decoration: TextDecoration.lineThrough,
+                                fontSize: 16,
+                              ),
+                            ),
+                            Text(
+                              product.price.convertToPrice(),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'SB',
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        SizedBox(
+                          height: 24,
+                          width: 24,
+                          child:
+                              Image.asset('images/icon_right_arrow_cricle.png'),
                         ),
                       ],
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        children: [
-                          const Text(
-                            'تومان',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'SB',
-                              fontSize: 14,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                product.price.toString(),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'SB',
-                                  decoration: TextDecoration.lineThrough,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              Text(
-                                product.realPrice.toString(),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'SB',
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const Spacer(),
-                          SizedBox(
-                            height: 24,
-                            width: 24,
-                            child: Image.asset(
-                                'images/icon_right_arrow_cricle.png'),
-                          ),
-                        ],
-                      ),
-                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),
       ),
     );
   }
-
-  static jsonObject(jsonObject) {}
 }
