@@ -6,6 +6,7 @@ import 'package:shop_apk/data/datasource/authentication_datasource.dart';
 import 'package:shop_apk/data/datasource/banner_datasource.dart';
 import 'package:shop_apk/data/datasource/basketItem_datasource.dart';
 import 'package:shop_apk/data/datasource/category_datesource.dart';
+import 'package:shop_apk/data/datasource/comment_datasource.dart';
 import 'package:shop_apk/data/datasource/product_category_datasource.dart';
 import 'package:shop_apk/data/datasource/product_datasource.dart';
 import 'package:shop_apk/data/datasource/product_detail_datasource.dart';
@@ -13,6 +14,7 @@ import 'package:shop_apk/data/repository/authetication_repository.dart';
 import 'package:shop_apk/data/repository/banner_repositories.dart';
 import 'package:shop_apk/data/repository/basketItem_repository.dart';
 import 'package:shop_apk/data/repository/categoty_repository.dart';
+import 'package:shop_apk/data/repository/comment_repository.dart';
 import 'package:shop_apk/data/repository/product_categoty_repository.dart';
 import 'package:shop_apk/data/repository/product_detail_repository.dart';
 import 'package:shop_apk/data/repository/product_repository.dart';
@@ -49,6 +51,8 @@ void _initRepositories() {
       () => BannerRemoteDatasource(locator.get()));
   locator.registerSingleton<IAuthenticationRepositories>(
       AuthenticationRepositories(locator.get()));
+  locator
+      .registerSingleton<IcommentRepository>(CommentRepository(locator.get()));
 }
 
 void _initDatasources() {
@@ -66,6 +70,9 @@ void _initDatasources() {
       () => ProductBasketLocalDatasource());
   locator.registerFactory<IauthenticationDataSource>(() {
     return Authentication(locator.get());
+  });
+  locator.registerFactory<IcommentDatasource>(() {
+    return CommentRemoteDatasource(locator.get());
   });
 }
 
