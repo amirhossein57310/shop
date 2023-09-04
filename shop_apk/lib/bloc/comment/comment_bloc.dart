@@ -7,11 +7,17 @@ import 'comment_event.dart';
 class CommentBloc extends Bloc<CommentEvent, CommentState> {
   final IcommentRepository repository;
   CommentBloc(this.repository) : super(CommentLoading()) {
-    on<CommentInitEvent>((event, emit) async {
+    on<CommentInitEvent>(
+      (event, emit) async {
+        final response = await repository.getComments(event.productId);
+        emit(CommentResponse(response));
+      },
+    );
+    on<CommentPostEvent>((event, emit) async {
+      emit(CommentLoading());
+      await repository.postComment(event.productId, event.commnet);
       final response = await repository.getComments(event.productId);
-      emit(
-        CommentResponse(response)
-      );
+      emit(CommentResponse(response));
     });
   }
 }

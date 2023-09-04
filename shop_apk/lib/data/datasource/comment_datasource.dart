@@ -5,6 +5,7 @@ import '../../util/api_exception.dart';
 
 abstract class IcommentDatasource {
   Future<List<Comment>> getcomments(String productId);
+  Future<void> postComment(String productId, String comment);
 }
 
 class CommentRemoteDatasource extends IcommentDatasource {
@@ -23,6 +24,21 @@ class CommentRemoteDatasource extends IcommentDatasource {
       return response.data['items']
           .map<Comment>((jsonMapObject) => Comment.fromMapJson(jsonMapObject))
           .toList();
+    } on DioException catch (ex) {
+      throw ApiException(ex.response!.statusCode, ex.response!.data['message']);
+    } catch (ex) {
+      throw ApiException(0, 'error');
+    }
+  }
+
+  @override
+  Future<void> postComment(String productId, String comment) async {
+    try {
+      await _dio.post('collections/comment/records', data: {
+        'text': comment,
+        'user_id': 'lkg8xc50i07oedn',
+        'product_id': productId
+      });
     } on DioException catch (ex) {
       throw ApiException(ex.response!.statusCode, ex.response!.data['message']);
     } catch (ex) {

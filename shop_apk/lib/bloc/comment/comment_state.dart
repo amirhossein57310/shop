@@ -10,3 +10,15 @@ class CommentResponse extends CommentState {
 
   CommentResponse(this.commentList);
 }
+
+class CommentPostLoading extends CommentState {
+  final bool isLoading;
+
+  CommentPostLoading(this.isLoading);
+}
+
+class CommentPostResponse extends CommentState {
+  Either<String, String> response;
+
+  CommentPostResponse(this.response);
+}
