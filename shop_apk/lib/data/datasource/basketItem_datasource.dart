@@ -6,7 +6,9 @@ abstract class IproductBasketDateSource {
   FutureOr<void> addToBasket(BasketItem basketItem);
   FutureOr<List<BasketItem>> getAllBasketList();
 
-  FutureOr<double> getTotalPrice();
+  FutureOr<int> getTotalPrice();
+
+  Future<void> removeProduct(int index);
 }
 
 class ProductBasketLocalDatasource extends IproductBasketDateSource {
@@ -22,10 +24,15 @@ class ProductBasketLocalDatasource extends IproductBasketDateSource {
   }
 
   @override
-  FutureOr<double> getTotalPrice() async {
+  FutureOr<int> getTotalPrice() async {
     var basketItemList = box.values.toList();
-    var totalPriceAmount = basketItemList.fold<double>(
+    var totalPriceAmount = basketItemList.fold<int>(
         0, (accumulator, product) => accumulator + product.realPrice!);
     return totalPriceAmount;
+  }
+
+  @override
+  Future<void> removeProduct(int index) async {
+    box.deleteAt(index);
   }
 }

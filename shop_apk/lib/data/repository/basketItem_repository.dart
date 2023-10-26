@@ -7,7 +7,8 @@ import 'dart:async';
 abstract class IproductBasketRepository {
   FutureOr<Either<String, String>> addToBasket(BasketItem basketItem);
   FutureOr<Either<String, List<BasketItem>>> getAllBasketList();
-  FutureOr<double> getTotalPrice();
+  FutureOr<int> getTotalPrice();
+  Future<void> removeProduct(int index);
 }
 
 class ProductBasketRepository extends IproductBasketRepository {
@@ -35,7 +36,12 @@ class ProductBasketRepository extends IproductBasketRepository {
   }
 
   @override
-  FutureOr<double> getTotalPrice() async {
+  FutureOr<int> getTotalPrice() async {
     return datasource.getTotalPrice();
+  }
+
+  @override
+  Future<void> removeProduct(int index) async {
+    datasource.removeProduct(index);
   }
 }

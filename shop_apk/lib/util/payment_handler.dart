@@ -4,7 +4,7 @@ import 'package:uni_links/uni_links.dart';
 import 'package:zarinpal/zarinpal.dart';
 
 abstract class PaymentHandler {
-  Future<void> initPaymentRequest();
+  Future<void> initPaymentRequest(int finalPrice);
   Future<void> sendPaymentRequest();
   Future<void> verifyPaymentRequest();
 }
@@ -28,15 +28,15 @@ class ZarinpalPaymentHandler extends PaymentHandler {
   }
 
   @override
-  Future<void> initPaymentRequest() async {
+  Future<void> initPaymentRequest(int finalPrice) async {
     _paymentRequest.setIsSandBox(true);
-    _paymentRequest.setAmount(1000);
+    _paymentRequest.setAmount(finalPrice);
     _paymentRequest.setDescription('this is for test application apple shop');
-    _paymentRequest.setMerchantID('f9965e0c-2ea9-4318-97ba-2f751f4e6b2f');
+    _paymentRequest.setMerchantID('0687f371-897a-43f4-a025-48f31aa7bfaa');
     _paymentRequest.setCallbackURL('expertflutter://shop');
     linkStream.listen(
       (deeplink) {
-        if (deeplink!.contains('Authority')) {
+        if (deeplink!.toLowerCase().contains('authority')) {
           _authority = deeplink.extractValueFromQuery('Authority');
           _status = deeplink.extractValueFromQuery('Status');
           verifyPaymentRequest();
@@ -62,13 +62,13 @@ class ZarinpalPaymentHandler extends PaymentHandler {
   }
 }
 
-class PaypalPaymentHandler extends PaymentHandler {
-  @override
-  Future<void> sendPaymentRequest() async {}
+// class PaypalPaymentHandler extends PaymentHandler {
+//   @override
+//   Future<void> sendPaymentRequest() async {}
 
-  @override
-  Future<void> initPaymentRequest() async {}
+//   @override
+//   Future<void> initPaymentRequest() async {}
 
-  @override
-  Future<void> verifyPaymentRequest() async {}
-}
+//   @override
+//   Future<void> verifyPaymentRequest() async {}
+// }

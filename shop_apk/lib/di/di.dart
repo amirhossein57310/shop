@@ -18,6 +18,7 @@ import 'package:shop_apk/data/repository/comment_repository.dart';
 import 'package:shop_apk/data/repository/product_categoty_repository.dart';
 import 'package:shop_apk/data/repository/product_detail_repository.dart';
 import 'package:shop_apk/data/repository/product_repository.dart';
+import 'package:shop_apk/util/dio_provider.dart';
 import 'dart:async';
 
 import 'package:shop_apk/util/payment_handler.dart';
@@ -69,7 +70,7 @@ void _initDatasources() {
   locator.registerFactory<IproductBasketDateSource>(
       () => ProductBasketLocalDatasource());
   locator.registerFactory<IauthenticationDataSource>(() {
-    return Authentication(locator.get());
+    return Authentication();
   });
   locator.registerFactory<IcommentDatasource>(() {
     return CommentRemoteDatasource(locator.get());
@@ -77,6 +78,8 @@ void _initDatasources() {
 }
 
 Future<void> _initComponents() async {
+  locator.registerSingleton<SharedPreferences>(
+      await SharedPreferences.getInstance());
   locator.registerSingleton<PaymentRequest>(PaymentRequest());
 
   locator.registerSingleton<UrlHandler>(UrlPayment());
@@ -84,9 +87,7 @@ Future<void> _initComponents() async {
   locator.registerSingleton<PaymentHandler>(
       ZarinpalPaymentHandler(locator.get(), locator.get()));
 
-  locator.registerSingleton<SharedPreferences>(
-      await SharedPreferences.getInstance());
-
   locator.registerSingleton<Dio>(
-      Dio(BaseOptions(baseUrl: 'http://startflutter.ir/api/')));
+    DioProvider.createDio(),
+  );
 }

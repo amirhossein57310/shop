@@ -20,13 +20,22 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
 
     on<BasketPaymentInitEvent>(
       (event, emit) async {
-        zarinpalPaymentRequestHandler.initPaymentRequest();
+        var totalPrice = await _basketRepository.getTotalPrice();
+        zarinpalPaymentRequestHandler.initPaymentRequest(totalPrice);
       },
     );
 
     on<BasketPaymentRequestEvent>(
       (event, emit) async {
         zarinpalPaymentRequestHandler.sendPaymentRequest();
+      },
+    );
+    on<BaskketRemoveProductEvent>(
+      (event, emit) async {
+        _basketRepository.removeProduct(event.index);
+        var basketItemList = await _basketRepository.getAllBasketList();
+        var totalPrice = await _basketRepository.getTotalPrice();
+        emit(BasketFetchedDataState(basketItemList, totalPrice));
       },
     );
   }

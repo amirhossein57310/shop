@@ -6,6 +6,7 @@ import 'package:shop_apk/bloc/basket/basket_bloc.dart';
 import 'package:shop_apk/bloc/basket/basket_event.dart';
 import 'package:shop_apk/bloc/basket/basket_state.dart';
 import 'package:shop_apk/constants/colors.dart';
+import 'package:shop_apk/util/extentions/int_extensions.dart';
 import 'package:shop_apk/util/extentions/string_extentions.dart';
 import 'package:shop_apk/widgets/cached_image.dart';
 
@@ -70,7 +71,7 @@ class CardScreen extends StatelessWidget {
                         return SliverList(
                           delegate: SliverChildBuilderDelegate(
                             ((context, index) {
-                              return CardItem(basketItem[index]);
+                              return CardItem(basketItem[index], index);
                             }),
                             childCount: basketItem.length,
                           ),
@@ -114,7 +115,7 @@ class CardScreen extends StatelessWidget {
                         child: Text(
                           state.getTotalPrice == 0
                               ? 'your basket is empty'
-                              : '  ${state.getTotalPrice}',
+                              : ' پرداخت مبلغ : ${state.getTotalPrice.convertToPrice()}',
                           style: TextStyle(
                             fontFamily: 'geb',
                             fontSize: 22,
@@ -135,8 +136,10 @@ class CardScreen extends StatelessWidget {
 
 class CardItem extends StatelessWidget {
   final BasketItem basketItem;
+  final int index;
   const CardItem(
-    this.basketItem, {
+    this.basketItem,
+    this.index, {
     Key? key,
   }) : super(key: key);
 
@@ -164,7 +167,6 @@ class CardItem extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                      vertical: 20,
                       horizontal: 20,
                     ),
                     child: Column(
@@ -177,9 +179,6 @@ class CardItem extends StatelessWidget {
                             fontSize: 16,
                             fontFamily: 'SB',
                           ),
-                        ),
-                        SizedBox(
-                          height: 6,
                         ),
                         const Text(
                           'گارانتی فیلان 18 ماهه',
@@ -235,40 +234,47 @@ class CardItem extends StatelessWidget {
                         Wrap(
                           spacing: 8,
                           children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 2,
-                                  color: CustomColor.red,
+                            GestureDetector(
+                              onTap: () {
+                                context
+                                    .read<BasketBloc>()
+                                    .add(BaskketRemoveProductEvent(index));
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 2,
+                                    color: CustomColor.red,
+                                  ),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
                                 ),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 4,
-                                  vertical: 2,
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      'حدف',
-                                      style: TextStyle(
-                                          color: CustomColor.red,
-                                          fontFamily: 'SB',
-                                          fontSize: 14),
-                                      textDirection: TextDirection.rtl,
-                                    ),
-                                    SizedBox(
-                                      width: 4,
-                                    ),
-                                    Image.asset('images/icon_trash.png'),
-                                  ],
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 4,
+                                    vertical: 2,
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        'حدف',
+                                        style: TextStyle(
+                                            color: CustomColor.red,
+                                            fontFamily: 'SB',
+                                            fontSize: 14),
+                                        textDirection: TextDirection.rtl,
+                                      ),
+                                      SizedBox(
+                                        width: 4,
+                                      ),
+                                      Image.asset('images/icon_trash.png'),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -324,7 +330,7 @@ class CardItem extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  (basketItem.realPrice).toString(),
+                  (basketItem.realPrice)!.convertToPrice(),
                   textDirection: TextDirection.rtl,
                   style: TextStyle(fontSize: 16, fontFamily: 'SB'),
                 ),

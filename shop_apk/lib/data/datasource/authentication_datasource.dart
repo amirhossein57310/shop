@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 
 import 'package:shop_apk/util/api_exception.dart';
+import 'package:shop_apk/util/dio_provider.dart';
 
 abstract class IauthenticationDataSource {
   FutureOr<void> register(
@@ -11,8 +12,8 @@ abstract class IauthenticationDataSource {
 }
 
 class Authentication extends IauthenticationDataSource {
-  final Dio _dio;
-  Authentication(this._dio);
+  final Dio _dio = DioProvider.createDioWithoutHeader();
+  Authentication();
 
   @override
   FutureOr<void> register(

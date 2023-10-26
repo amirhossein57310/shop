@@ -33,15 +33,15 @@ class AuthenticationRepositories extends IAuthenticationRepositories {
   FutureOr<Either<String, String>> login(
       String username, String password) async {
     try {
-      String token = await _datasource.login('amiramini121', '12345678');
+      String token = await _datasource.login(username, password);
       if (token.isNotEmpty) {
         AuthManager.saveToken(token);
-        return right('you loged in');
+        return right('شما وارد شده اید');
       } else {
         return left('در ورود خطایی رخ داده است');
       }
     } on ApiException catch (ex) {
-      return left('${ex.code!}');
+      return left('${ex.message!}');
     }
   }
 }
