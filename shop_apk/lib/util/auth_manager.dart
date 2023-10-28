@@ -18,4 +18,12 @@ class AuthManager {
     _sharedpref.clear();
     valueNotifier.value = null;
   }
+
+  static void saveId(String id) {
+    _sharedpref.setString('user_id', id);
+  }
+
+  static String getId() {
+    return _sharedpref.getString('user_id') ?? '';
+  }
 }

@@ -63,14 +63,17 @@ class ProfileScreen extends StatelessWidget {
                         var authBloc = AuthBloc(locator.get());
                         authBloc.stream.forEach((state) {
                           if (state is AuthResponseState) {
-                            state.response.fold((l) {}, (r) {
-                              return globalNavigatorKey.currentState
-                                  ?.pushReplacement(
-                                MaterialPageRoute(
-                                  builder: (context) => DashbordScreen(),
-                                ),
-                              );
-                            });
+                            state.response.fold(
+                              (l) {},
+                              (r) {
+                                return globalNavigatorKey.currentState
+                                    ?.pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => DashbordScreen(),
+                                  ),
+                                );
+                              },
+                            );
                           }
                         });
                         return authBloc;

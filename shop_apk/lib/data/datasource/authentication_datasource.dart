@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 
 import 'package:shop_apk/util/api_exception.dart';
+import 'package:shop_apk/util/auth_manager.dart';
 import 'package:shop_apk/util/dio_provider.dart';
 
 abstract class IauthenticationDataSource {
@@ -43,6 +44,7 @@ class Authentication extends IauthenticationDataSource {
         'password': password,
       });
       if (response.statusCode == 200) {
+        AuthManager.saveId(response.data['record']['id']);
         return response.data['token'];
       }
     } on DioException catch (ex) {
