@@ -313,7 +313,7 @@ class PictureWidget extends StatelessWidget {
                                 alignment: AlignmentDirectional.topStart,
                                 clipBehavior: Clip.none,
                                 children: <Widget>[
-                                  Container(
+                                  SizedBox(
                                     height: 40,
                                     width: 90,
                                     child: ListView.builder(

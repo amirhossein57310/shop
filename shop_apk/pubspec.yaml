@@ -124,5 +124,10 @@ flutter:
       fonts:
         - asset: assets/fonts/ShabnamBold.ttf
           weight: 700
+
+    - family: dana
+      fonts:
+        - asset: assets/fonts/dana.ttf
+             
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

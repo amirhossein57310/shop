@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
-
-import 'package:shop_apk/bloc/authentication/auth_bloc.dart';
-
 import 'package:shop_apk/data/model/basket_item.dart';
-
 import 'package:shop_apk/di/di.dart';
 import 'package:shop_apk/screens/dashbord_screen.dart';
 import 'package:shop_apk/screens/login_screen.dart';
@@ -37,14 +32,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       navigatorKey: globalNavigatorKey,
       debugShowCheckedModeBanner: false,
-      home: (AuthManager.readAuth().isEmpty)
-          ? BlocProvider(
-              create: (context) => AuthBloc(
-                locator.get(),
-              ),
-              child: LoginScreen(),
-            )
-          : DashbordScreen(),
+      home: (AuthManager.readAuth().isEmpty) ? LoginScreen() : DashbordScreen(),
     );
   }
 }

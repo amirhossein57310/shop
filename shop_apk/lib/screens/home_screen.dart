@@ -79,6 +79,9 @@ Widget _getHomeScreenContent(BannerState state, BuildContext context) {
               return _GetMostViewdProduct(r);
             },
           ),
+          SliverPadding(
+            padding: EdgeInsets.all(24),
+          ),
         ],
       ),
     );

@@ -20,7 +20,7 @@ class Authentication extends IauthenticationDataSource {
   FutureOr<void> register(
       String username, String password, String passwordConfirm) async {
     try {
-      await _dio.post(
+      var response = await _dio.post(
         'collections/users/records',
         data: {
           'username': username,
@@ -28,6 +28,9 @@ class Authentication extends IauthenticationDataSource {
           'passwordConfirm': passwordConfirm,
         },
       );
+      if (response.statusCode == 200) {
+        AuthManager.saveId(response.data['id']);
+      }
     } on DioException catch (ex) {
       throw ApiException(ex.response?.statusCode, ex.response?.data['message']);
     } catch (ex) {
