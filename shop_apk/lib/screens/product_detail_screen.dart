@@ -170,15 +170,7 @@ class DetailContent extends StatelessWidget {
                     );
                   }, ((productVariantList) {
                     return VariantContainerGenerator(productVariantList);
-                  })
-                      // myself code that works perfectly
-                      //   (variantTypeList) {
-                      //     var type = variantTypeList.where((element) {
-                      //       return element.type == VariantTypeEnum.Color;
-                      //     }).toList();
-                      //     return ColorVariant(type.single);
-                      //   },
-                      ),
+                  })),
                 },
                 if (state is ProductResponseState) ...{
                   state.productProperties.fold(
@@ -301,120 +293,6 @@ class PictureWidget extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      if (state is CommentResponse) ...{
-                        state.commentList.fold((l) {
-                          return SliverToBoxAdapter(
-                            child: Text(l),
-                          );
-                        }, (commentList) {
-                          return Row(
-                            children: [
-                              Stack(
-                                alignment: AlignmentDirectional.topStart,
-                                clipBehavior: Clip.none,
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: 40,
-                                    width: 90,
-                                    child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: 5,
-                                      itemBuilder: (context, index) {
-                                        return Padding(
-                                          padding: const EdgeInsets.all(2.0),
-                                          child: Container(
-                                            height: 26,
-                                            width: 26,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              color: Colors.white,
-                                            ),
-                                            child: (commentList[index]
-                                                    .username
-                                                    .isEmpty)
-                                                ? Image.asset(
-                                                    'images/avatar.jpg',
-                                                    fit: BoxFit.fitHeight,
-                                                  )
-                                                : CachedImage(
-                                                    radius: 20,
-                                                    imageUrl: commentList[index]
-                                                        .userThumbnailUrl,
-                                                  ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  // Container(
-                                  //   height: 26,
-                                  //   width: 26,
-                                  //   decoration: BoxDecoration(
-                                  //     borderRadius: BorderRadius.circular(8),
-                                  //     color: Colors.pink,
-                                  //   ),
-                                  //   child: Image.asset('images/avatar.jpg'),
-                                  // ),
-                                  // Positioned(
-                                  //   right: 15,
-                                  //   child: Container(
-                                  //     height: 26,
-                                  //     width: 26,
-                                  //     decoration: BoxDecoration(
-                                  //       borderRadius: BorderRadius.circular(8),
-                                  //       color: Colors.green,
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                  // Positioned(
-                                  //   right: 30,
-                                  //   child: Container(
-                                  //     height: 26,
-                                  //     width: 26,
-                                  //     decoration: BoxDecoration(
-                                  //       borderRadius: BorderRadius.circular(8),
-                                  //       color: Colors.yellow,
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                  // Positioned(
-                                  //   right: 45,
-                                  //   child: Container(
-                                  //     height: 26,
-                                  //     width: 26,
-                                  //     decoration: BoxDecoration(
-                                  //       borderRadius: BorderRadius.circular(8),
-                                  //       color: Colors.blue,
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                  // Positioned(
-                                  //   right: 60,
-                                  //   child: Container(
-                                  //     height: 26,
-                                  //     width: 26,
-                                  //     decoration: BoxDecoration(
-                                  //       borderRadius: BorderRadius.circular(8),
-                                  //       color: Colors.grey,
-                                  //     ),
-                                  //     child: const Center(
-                                  //       child: Text(
-                                  //         '+10',
-                                  //         style: TextStyle(
-                                  //           fontFamily: 'SB',
-                                  //           color: Colors.white,
-                                  //         ),
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                            ],
-                          );
-                        })
-                      },
                       const SizedBox(
                         width: 10,
                       ),

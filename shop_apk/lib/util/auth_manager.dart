@@ -11,7 +11,7 @@ class AuthManager {
   }
 
   static String readAuth() {
-    return _sharedpref.getString('access_token') ?? 'salam';
+    return _sharedpref.getString('access_token') ?? '';
   }
 
   static void logout() {

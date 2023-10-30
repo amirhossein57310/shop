@@ -5,13 +5,12 @@ import 'package:dartz/dartz.dart';
 import 'package:shop_apk/data/datasource/authentication_datasource.dart';
 
 import 'package:shop_apk/util/api_exception.dart';
-import 'package:shop_apk/util/auth_manager.dart';
 
 abstract class IAuthenticationRepositories {
-  FutureOr<Either<String, String>> register(
+  Future<Either<String, String>> register(
       String username, String password, String passwordConfirm);
 
-  FutureOr<Either<String, String>> login(String username, String password);
+  Future<Either<String, String>> login(String username, String password);
 }
 
 class AuthenticationRepositories extends IAuthenticationRepositories {
@@ -19,7 +18,7 @@ class AuthenticationRepositories extends IAuthenticationRepositories {
   AuthenticationRepositories(this._datasource);
 
   @override
-  FutureOr<Either<String, String>> register(
+  Future<Either<String, String>> register(
       String username, String password, String passwordConfirm) async {
     try {
       await _datasource.register(username, password, passwordConfirm);
@@ -30,12 +29,10 @@ class AuthenticationRepositories extends IAuthenticationRepositories {
   }
 
   @override
-  FutureOr<Either<String, String>> login(
-      String username, String password) async {
+  Future<Either<String, String>> login(String username, String password) async {
     try {
       String token = await _datasource.login(username, password);
       if (token.isNotEmpty) {
-        AuthManager.saveToken(token);
         return right('شما وارد شده اید');
       } else {
         return left('در ورود خطایی رخ داده است');

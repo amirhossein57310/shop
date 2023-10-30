@@ -7,6 +7,7 @@ import 'package:shop_apk/bloc/authentication/auth_state.dart';
 import 'package:shop_apk/di/di.dart';
 
 import 'package:shop_apk/screens/dashbord_screen.dart';
+import 'package:shop_apk/screens/login_screen.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({Key? key}) : super(key: key);
@@ -123,7 +124,7 @@ class ViewContainer extends StatelessWidget {
                     listener: (context, state) {
                       if (state is AuthResponseState) {
                         state.response.fold((l) {}, (r) {
-                          Navigator.of(context).push(
+                          Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
                               builder: (context) => DashbordScreen(),
                             ),
@@ -155,6 +156,7 @@ class ViewContainer extends StatelessWidget {
                           ),
                         );
                       }
+
                       if (state is AuthLoadingState) {
                         return CircularProgressIndicator();
                       }
@@ -177,8 +179,23 @@ class ViewContainer extends StatelessWidget {
                       );
                     }),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return LoginScreen();
+                          },
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'اگر حساب کاربری دارید وارد شوید',
+                      style: TextStyle(fontFamily: 'dana', fontSize: 16),
+                    ),
                   ),
                 ],
               ),

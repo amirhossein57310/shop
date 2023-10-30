@@ -19,7 +19,7 @@ class CommentRemoteDatasource extends IcommentDatasource {
     Map<String, dynamic> qParams = {
       'filter': 'product_id = "$productId"',
       'expand': 'user_id',
-      'perPage': 100,
+      'perPage': 20,
     };
     try {
       var response = await _dio.get('collections/comment/records',
@@ -30,7 +30,7 @@ class CommentRemoteDatasource extends IcommentDatasource {
     } on DioException catch (ex) {
       throw ApiException(ex.response!.statusCode, ex.response!.data['message']);
     } catch (ex) {
-      throw ApiException(0, 'error');
+      throw ApiException(0, 'unknown error');
     }
   }
 
