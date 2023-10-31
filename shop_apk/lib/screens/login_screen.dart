@@ -121,22 +121,17 @@ class ViewContainer extends StatelessWidget {
                 ),
                 BlocConsumer<AuthBloc, AuthState>(
                   listener: ((context, state) {
-                    //logic
-                    //toast //snack //diaolg //navigate
                     if (state is AuthResponseState) {
                       state.response.fold((l) {
-                        _usernameTextController.text = '';
-                        _passwordTextController.text = '';
-                        var snackbar = SnackBar(
-                          content: Text(
-                            l,
-                            style: TextStyle(fontFamily: 'dana', fontSize: 14),
-                          ),
+                        var snackBar = SnackBar(
+                          content: Text(l),
                           backgroundColor: Colors.black,
                           behavior: SnackBarBehavior.floating,
                           duration: Duration(seconds: 1),
                         );
-                        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        _passwordTextController.text = '';
+                        _usernameTextController.text = '';
                       }, (r) {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (context) => DashbordScreen()));
@@ -167,7 +162,20 @@ class ViewContainer extends StatelessWidget {
 
                     if (state is AuthResponseState) {
                       return state.response.fold((l) {
-                        return Text(l);
+                        return ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            textStyle:
+                                TextStyle(fontFamily: 'dana', fontSize: 20),
+                            backgroundColor: Colors.blue[700],
+                            minimumSize: Size(200, 48),
+                          ),
+                          onPressed: () {
+                            BlocProvider.of<AuthBloc>(context).add(
+                                AuthLoginRequest(_usernameTextController.text,
+                                    _passwordTextController.text));
+                          },
+                          child: Text('ورود به حساب کاربری'),
+                        );
                       }, (r) {
                         return Text(r);
                       });

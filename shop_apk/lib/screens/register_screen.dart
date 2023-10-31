@@ -123,7 +123,18 @@ class ViewContainer extends StatelessWidget {
                   BlocConsumer<AuthBloc, AuthState>(
                     listener: (context, state) {
                       if (state is AuthResponseState) {
-                        state.response.fold((l) {}, (r) {
+                        state.response.fold((l) {
+                          var snackBar = SnackBar(
+                            content: Text(l),
+                            backgroundColor: Colors.black,
+                            behavior: SnackBarBehavior.floating,
+                            duration: Duration(seconds: 1),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          _usernameTextController.text = '';
+                          _passwordTextController.text = '';
+                          _passwordConfirmTextController.text = '';
+                        }, (r) {
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
                               builder: (context) => DashbordScreen(),
@@ -162,9 +173,26 @@ class ViewContainer extends StatelessWidget {
                       }
                       if (state is AuthResponseState) {
                         return state.response.fold((l) {
-                          return Text(
-                            l,
-                            style: TextStyle(fontFamily: 'dana', fontSize: 20),
+                          return ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              textStyle:
+                                  TextStyle(fontFamily: 'dana', fontSize: 20),
+                              backgroundColor: Colors.blue[700],
+                              minimumSize: Size(200, 48),
+                            ),
+                            onPressed: () {
+                              BlocProvider.of<AuthBloc>(context).add(
+                                AuthRegisterRequest(
+                                  _usernameTextController.text,
+                                  _passwordTextController.text,
+                                  _passwordConfirmTextController.text,
+                                ),
+                              );
+                            },
+                            child: Text(
+                              'ثبت نام',
+                              style: TextStyle(fontFamily: 'dana'),
+                            ),
                           );
                         }, (r) {
                           return Text(

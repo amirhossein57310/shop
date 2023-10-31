@@ -61,14 +61,3 @@ class ZarinpalPaymentHandler extends PaymentHandler {
     );
   }
 }
-
-// class PaypalPaymentHandler extends PaymentHandler {
-//   @override
-//   Future<void> sendPaymentRequest() async {}
-
-//   @override
-//   Future<void> initPaymentRequest() async {}
-
-//   @override
-//   Future<void> verifyPaymentRequest() async {}
-// }
