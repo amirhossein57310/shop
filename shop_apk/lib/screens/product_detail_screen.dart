@@ -818,7 +818,7 @@ class _ProductGalleryState extends State<ProductGallery> {
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: 44,
+          horizontal: 20,
         ),
         child: Container(
           height: 284,
@@ -959,7 +959,7 @@ class BuyingBasket extends StatelessWidget {
                 },
                 child: Container(
                   height: 53,
-                  width: 170,
+                  width: 160,
                   color: Colors.transparent,
                   child: const Center(
                     child: Text(
